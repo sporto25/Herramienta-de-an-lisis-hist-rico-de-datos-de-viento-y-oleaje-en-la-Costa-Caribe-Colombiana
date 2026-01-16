@@ -17,4 +17,4 @@ def export_netcdf(dataset, path, name="data.nc"):
 
 
 def export_figure(fig, path, name="figure.png"):
-    fig.savefig(path / name, dpi=300, bbox_inches="tight")
+    fig.savefig(path / name, dpi=400, bbox_inches="tight")

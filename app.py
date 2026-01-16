@@ -1,11 +1,15 @@
 import streamlit as st
 import importlib
+import streamlit as st
+import xarray as xr
+from pathlib import Path
+from core.zones import ZONES
 
 # =========================
 # CONFIG STREAMLIT
 # =========================
 st.set_page_config(
-    page_title="Herramienta Costa Caribe",
+    page_title="Herramienta online Costa Caribe Colombiano",
     layout="wide"
 )
 
@@ -41,10 +45,14 @@ if st.sidebar.button("Cerrar sesión"):
     st.session_state["user"] = None
     st.rerun()
 
+st.title("Herramienta online para evaluacion de condiciones historicas de viento y Oleaje en el caribe colombiano. 🌊")
+
+DATA_DIR = Path("data")
+
 # =========================
 # ZONAS Y PARÁMETROS
 # =========================
-from core.zones import ZONES
+
 
 st.sidebar.header("🗺️ Zona de estudio")
 
@@ -68,10 +76,6 @@ param = zone["parameters"][param_name]
 # INFO GENERAL
 # =========================
 st.title("🌊 Herramienta Metoceánica – Caribe Colombiano")
-st.markdown("""
-Análisis **offline** de datos metoceánicos  
-**DIMAR – Academia – Ingeniería**
-""")
 
 st.info(f"""
 **Zona:** {zone_name}  
