@@ -1,0 +1,42 @@
+import xarray as xr
+
+archivos = [
+    r"C:\Users\Santiago Elias Porto\Downloads\data\TIME0.nc",
+    r"C:\Users\Santiago Elias Porto\Downloads\data\TIME6.nc",
+    r"C:\Users\Santiago Elias Porto\Downloads\data\TIME12.nc",
+    r"C:\Users\Santiago Elias Porto\Downloads\data\TIME18.nc"
+]
+
+# 1️⃣ Abrir cada archivo individualmente (SIN DASK)
+datasets = [
+    xr.open_dataset(f, engine="netcdf4", cache=False)
+    for f in archivos
+]
+
+# 2️⃣ Concatenar manualmente en el eje tiempo
+ds = xr.concat(datasets, dim="time")
+
+#print(ds)
+
+ds_flat = ds.mean(dim="time", skipna=True)
+print(ds_flat)
+
+
+#promedio historico
+
+import matplotlib.pyplot as plt
+
+swh_mean = ds_flat["swh"].mean(dim="valid_time")
+
+plt.figure()
+plt.pcolormesh(
+    ds_flat.longitude,
+    ds_flat.latitude,
+    swh_mean,
+    shading="auto"
+)
+plt.colorbar(label="SWH [m]")
+plt.xlabel("Longitud")
+plt.ylabel("Latitud")
+plt.title("Altura significativa de ola media\nCaribe Colombiano")
+plt.show()
